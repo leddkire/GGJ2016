@@ -10,11 +10,15 @@ const CAM_VSTR = 12#4
 const CAM_CUTS = 12
 var default_camera_pos = Vector2(0,0)
 
-func _process(delta):
+func perform_camera_functions():	
 	if(cam_target == null):
 		camera.set_pos(default_camera_pos)
 	else:
 		follow(cam_target)
+
+func _process(delta):
+	if(camera):
+		perform_camera_functions()
 
 func follow(target):
 	var camera_pos = camera.get_global_pos()
@@ -40,6 +44,7 @@ func _ready():
 	var _root=get_tree().get_root()
 	root = _root.get_child(_root.get_child_count()-1)
 	camera = root.get_node("mainCamera")
-	camera.make_current()
+	if(camera):
+		camera.make_current()
 	print(camera)
 	set_process(true)
