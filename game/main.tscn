@@ -1,0 +1,53 @@
+[gd_scene load_steps=2 format=1]
+
+[ext_resource path="res://main.gd" type="Script" id=1]
+
+[node name="root" type="Node"]
+
+script/script = ExtResource( 1 )
+__meta__ = { "__editor_plugin_screen__":"2D" }
+
+[node name="MapLayer" type="Node2D" parent="."]
+
+[node name="HUDLayer" type="CanvasLayer" parent="."]
+
+layer = 1
+offset = Vector2( 0, 0 )
+rotation = 0.0
+scale = Vector2( 1, 1 )
+
+[node name="HUDRoot" type="Node2D" parent="HUDLayer" groups=[ "HUDRoot" ]]
+
+[node name="Polygon2D" type="Polygon2D" parent="HUDLayer/HUDRoot"]
+
+transform/pos = Vector2( -2.44354, 213.401 )
+transform/scale = Vector2( 1, 1 )
+polygon = Vector2Array( 0, 0, 450, 0, 430, 30, -10, 30 )
+uv = Vector2Array(  )
+color = Color( 0, 0, 0, 1 )
+offset = Vector2( 0, 0 )
+texture/texture = null
+texture/offset = Vector2( 0, 0 )
+texture/scale = Vector2( 1, 1 )
+texture/rotation = 0.0
+invert/enable = false
+invert/border = 100.0
+
+[node name="ScreenEffectLayer" type="CanvasLayer" parent="."]
+
+layer = 1
+offset = Vector2( 0, 0 )
+rotation = 0.0
+scale = Vector2( 1, 1 )
+
+[node name="anim" type="AnimationPlayer" parent="ScreenEffectLayer"]
+
+playback/process_mode = 1
+playback/default_blend_time = 0.0
+root/root = NodePath("..")
+playback/active = true
+playback/speed = 1.0
+blend_times = [  ]
+autoplay = ""
+
+
