@@ -6,6 +6,8 @@ extends Node
 
 # currently loaded scene. Can be a cinematic or a playable level or whatever is in the MapLayer node
 var current_scene=null
+var current_scene_path = null
+var last_scene_path = null
 # MapLayer node
 var main_scene=null
 # root node of the main scene
@@ -22,9 +24,11 @@ func _ready():
 
 func _goto_scene(scene):
 	if(current_scene!=null):
+		last_scene_path = current_scene_path
 		current_scene.queue_free()
 	var s=ResourceLoader.load(scene)
 	current_scene = s.instance()
+	current_scene_path = scene
 	main_scene.add_child(current_scene)
 
 
