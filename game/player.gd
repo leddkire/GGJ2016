@@ -57,6 +57,7 @@ var traverse_floor=false    # state of traversing plateforms. Wenn true, the pla
 
 var prev_jump_pressed=false # previous state of jumping
 var anim=""                 # actual sprite animation to play
+var new_anim
 var siding_left=false       # is player siding left, in which case the sprite must be inverted. This parameter is passed down the bullets and cone the player creates.
 
 # names of animations
@@ -111,13 +112,16 @@ func _do_move(delta):
 	# Initialize variables for the player's animation.
 	# The animation will be changed, if needed, at the end of this function.
 #	var pre_anim=""   # in case a new animation is divided in 2 parts, this is the name of the first animation to play. The animation must not loop, because it will be followed by the new_anim animation.
-#	var new_anim=anim # name of the next animation to play. must be a valid animation name and the animation must loop.
+	new_anim=anim # name of the next animation to play. must be a valid animation name and the animation must loop.
 	
 #	var animation=get_node("anim") # animation player node
 	var preventChangeAnimation=false # flag to prevent a change of animation, so a transition animation can be completely played, even if something interacts with the player.
 #	if(animation!=null and get_node("anim").get_current_animation()=="deflate"): # if the player is deflating, meaning he's falling, prevent to switch to fall animation
 #		preventChangeAnimation=true
-	
+	if(anim_player != null):
+		var curr_anim = anim_player.get_current_animation() 
+		if (curr_anim == "repulsor" or curr_anim == "shoot"):
+			preventChangeAnimation=true
 	
 	#forces factors, to make the player faster or slower than his original speed. Same for his gravity.
 	var gravityFactor=1
@@ -181,8 +185,7 @@ func _do_move(delta):
 			vlen=0
 			
 		velocity.x=vlen*vsign
-		
-	
+
 	
 	#integrate forces to velocity
 	velocity += force * delta
@@ -259,15 +262,18 @@ func _do_move(delta):
 			dir_facing = 1
 			
 		siding_left=new_siding_left
-	
+
+	var	curr_anim = anim_player.get_current_animation()	
+	if(curr_anim != "Idle" and action_state == IDLE_ACTION):
+		if(velocity.x ==0):
+			new_anim = "Idle"
+	elif(curr_anim != "Run" and action_state == IDLE_ACTION):
+		if(velocity.x != 0):
+			new_anim = "Run"
 	# update the player's animation, if needed and possible.
-#	if(!preventChangeAnimation and new_anim!=anim):
-#		anim=new_anim
-#		if(pre_anim!=""):
-#			animation.play(pre_anim)
-#			animation.queue(anim)
-#		else:
-#			animation.play(anim)
+	if(!preventChangeAnimation and new_anim!=anim):
+		anim=new_anim
+		anim_player.play(anim)
 
 
 # Initializer
@@ -300,12 +306,46 @@ func _on_Area2D_body_enter( body ):
 	if (body extends item_class):
 		get_node("/root/game_data").add_item_qty(body.get_texture_name())
 		body.free()
-	elif(body.is_in_group("attack")):
-		#Every body in the attack group must have this function
-		get_node("/root/camera").cam_target= null
-		var same_scn = get_node("/root/global").current_scene_path
-		get_node("/root/global").goto_playable_scene("res://game_over/game_over.scn",null)
+	if(body.is_in_group("attack")):
+		get_node("/root/camera").cam_target = null
+		queue_free()
 
+
+#	if(body extends enemy_class and body.alive):
+#		hit()
+#		body.explode()
+#	if(body extends bonus_class):
+#		get_bonus(body.bonus_type)
+#		body.queue_free()
+#	if("is_enemy" in body):
+#		hit()
+#
+# event when the player is hit, is knocked back and lose life.
+# edit: here should also start a phase of immortality
+#func hit():
+#	var instance=hit_stars.instance()
+#	instance.set_direction(siding_left)
+#	add_child(instance)
+#	if(siding_left):
+#		velocity+=Vector2(500,0)
+#	else:
+#		velocity-=Vector2(500,0)
+#	get_node("/root/gamedata").remove_player_life(1)
+#	sfx_node.play("hit")
+#
+# gives the player the effect of a bonus.
+# int bonus_type : type of bonus (see bonus resource)
+#func get_bonus(bonus_type):
+#	var gameData=get_node("/root/gamedata")
+#	if(bonus_type==0):
+#		gameData.increase_player_life(3)
+#		sfx_node.play("health")
+#	elif(bonus_type==1):
+#		gameData.restore_player_life()
+#		sfx_node.play("health")
+#	elif(bonus_type==2):
+#		gameData.add_player_continue()
+#		sfx_node.play("life")
 
 # allocate the which the player can interact with.
 # Door door : door node. If null, it means the player cannot interact with a door (which is the case most of the time).
@@ -351,7 +391,11 @@ func perform_idle():
 	action_state = IDLE_ACTION
 	busy = false
 	print("Back to idle")
-	anim_player.play("Idle")
+	print(velocity.x)
+	if(velocity.x == 0):
+		anim_player.play("Idle")
+	else:
+		anim_player.play("Run")
 	
 func perform_shoot():
 	print("channeling shoot")

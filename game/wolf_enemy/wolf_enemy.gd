@@ -32,7 +32,7 @@ var cast
 
 func _on_contact_receiver_body_enter(body):
 	if(body.is_in_group("repulsor")):
-		print("REPULSED")
+		print("REPUL/SED")
 		velocity.y=-500
 		var rep_x = body.get_global_pos().x
 		var diff_x = get_pos().x - rep_x
@@ -117,7 +117,6 @@ func check_facing():
 func process_map_collisions():
 	if(is_colliding()):
 		var body = get_collider()
-		print(body)
 		if(body.is_in_group("wall")):
 			facing_dir = -facing_dir
 			
