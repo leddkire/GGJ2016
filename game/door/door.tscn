@@ -12,7 +12,7 @@ extents = Vector2( 17, 25 )
 
 texture = ExtResource( 1 )
 script/script = ExtResource( 2 )
-__meta__ = { "__editor_plugin_screen__":"2D" }
+__meta__ = { "__editor_plugin_screen__":"Script" }
 
 [node name="Area2D" type="Area2D" parent="."]
 
