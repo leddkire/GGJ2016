@@ -42,7 +42,7 @@ func _on_contact_receiver_body_enter(body):
 		velocity.y = - 500
 		var body_pos = body.get_global_pos()
 		var pos = get_pos()
-		var xDiff = body_pos.x - pos.x
+		var xDiff = pos.x - body_pos()
 		var scale = get_scale()
 		velocity.x = sign(xDiff) * -1000 
 		state = BOMBEADO

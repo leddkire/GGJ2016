@@ -4,13 +4,13 @@ extends KinematicBody2D
 const player_class = preload("res://player.gd")
 
 const WALK_SPEED = 700
-const RUN_SPEED = 1200
-const JUMP_SPEED = 300
-const JUMP_HEIGHT = 1000
+const RUN_SPEED = 1400
+const JUMP_SPEED = 500
+const JUMP_HEIGHT = 650
 const TIMEOUT_IDLE = 1
-const TIMEOUT_CHARGING = 0.5
-const TIMEOUT_FREEZED = 2
-const TIMEOUT_ATTACKING = 2
+const TIMEOUT_CHARGING = 0.40
+const TIMEOUT_FREEZED = 2 
+const TIMEOUT_ATTACKING = 1
 
 
 
@@ -33,12 +33,13 @@ var cast
 func _on_contact_receiver_body_enter(body):
 	if(body.is_in_group("repulsor")):
 		print("REPULSED")
-		velocity.y=-50
-		var rep_x = body.get_pos().x
+		velocity.y=-500
+		var rep_x = body.get_global_pos().x
 		var diff_x = get_pos().x - rep_x
-		velocity.x = sign(diff_x) * 200
+		velocity.x = sign(diff_x) * 1000
 		state = FREEZED
 		timer.set_wait_time(TIMEOUT_FREEZED)
+		timer.start()
 	if(body.is_in_group("projectile")):
 		print("SHOT")
 		get_node("/root/game_data").add_item_qty("tooth.png")
@@ -66,11 +67,11 @@ func _on_Timer_timeout():
 		timer.start()
 	elif state == IDLE:
 		randomize();
-		var ran = randi() % 1
+		var ran = randi() % 2
 		if ran == 0:
 			facing_dir = -1
 		else:
-			facing_dir = 0
+			facing_dir = 1
 		state = WANDERING
 		randomize();
 		ran = randi() % 2
@@ -97,6 +98,8 @@ func perform_wolf_movement(delta):
 		facing_dir = sign(pos_diff.x)
 	elif state == IDLE or state == CHARGING:
 		velocity.x = 0
+	elif (state == FREEZED):
+		pass
 	var motion = velocity* delta
 	motion = move(motion)
 	if(is_colliding()):
@@ -114,6 +117,7 @@ func check_facing():
 func process_map_collisions():
 	if(is_colliding()):
 		var body = get_collider()
+		print(body)
 		if(body.is_in_group("wall")):
 			facing_dir = -facing_dir
 			
@@ -123,6 +127,7 @@ func _fixed_process(delta):
 	perform_wolf_movement(delta)
 	check_facing()
 	get_node("current_state").set_text("Current State: " + var2str(state))	
+	get_node("current_state").set_scale(Vector2(1,1))
 
 
 func _ready():
