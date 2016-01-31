@@ -12,7 +12,7 @@ var main_scene=null
 var root=null
 
 # Classes ----------------------------------------------------------
-var player_class = preload("res://player.res")
+var player_class = preload("res://player.tscn")
 
 func _ready():
 	var _root=get_tree().get_root()

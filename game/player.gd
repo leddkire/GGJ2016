@@ -6,6 +6,7 @@ extends KinematicBody2D
 
 #const bonus_class = preload("res://bonus.gd")
 #const enemy_class = preload("res://enemies/enemy.gd")
+const item_class = preload("res://item.gd")
 #const boss_class = preload("res://enemies/boss1_sprite.gd")
 #const breath = preload("res://breath.res")
 #const star = preload("res://star.res")
@@ -195,7 +196,8 @@ func _do_move(delta):
 	if (is_colliding()):
 		#ran against something, is it the floor? get normal
 		var n = get_collision_normal()
-
+		
+		
 		if ( rad2deg(acos(n.dot( Vector2(0,-1)))) < FLOOR_ANGLE_TOLERANCE ):
 			#if angle to the "up" vectors is < angle tolerance
 			#char is on floor
@@ -288,7 +290,10 @@ func decTimeout(value,delta):
 
 # trigger event when the player collides with a bonus or an enemy
 # Node body : body which the player collides with
-#func _on_Area2D_body_enter( body ):
+func _on_Area2D_body_enter( body ):
+	if (body extends item_class):
+		get_node("/root/game_data").add_item_qty(body.get_texture_name())
+		body.free()
 #	if(body extends enemy_class and body.alive):
 #		hit()
 #		body.explode()
@@ -313,17 +318,17 @@ func decTimeout(value,delta):
 #
 # gives the player the effect of a bonus.
 # int bonus_type : type of bonus (see bonus resource)
-func get_bonus(bonus_type):
-	var gameData=get_node("/root/gamedata")
-	if(bonus_type==0):
-		gameData.increase_player_life(3)
-		sfx_node.play("health")
-	elif(bonus_type==1):
-		gameData.restore_player_life()
-		sfx_node.play("health")
-	elif(bonus_type==2):
-		gameData.add_player_continue()
-		sfx_node.play("life")
+#func get_bonus(bonus_type):
+#	var gameData=get_node("/root/gamedata")
+#	if(bonus_type==0):
+#		gameData.increase_player_life(3)
+#		sfx_node.play("health")
+#	elif(bonus_type==1):
+#		gameData.restore_player_life()
+#		sfx_node.play("health")
+#	elif(bonus_type==2):
+#		gameData.add_player_continue()
+#		sfx_node.play("life")
 
 # allocate the which the player can interact with.
 # Door door : door node. If null, it means the player cannot interact with a door (which is the case most of the time).
@@ -369,7 +374,7 @@ func perform_idle():
 	action_state = IDLE_ACTION
 	busy = false
 	print("Back to idle")
-	anim_player.play("idle")
+	anim_player.play("Idle")
 	
 func perform_shoot():
 	print("channeling shoot")
