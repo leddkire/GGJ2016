@@ -2,7 +2,7 @@
 
 [ext_resource path="res://player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://map_obstacles/basic_wall.tscn" type="PackedScene" id=2]
-[ext_resource path="res://bear_enemy/bear_enemy.tscn" type="PackedScene" id=3]
+[ext_resource path="res://wolf_enemy/wolf_enemy.tscn" type="PackedScene" id=3]
 
 [sub_resource type="ConvexPolygonShape2D" id=1]
 
@@ -62,15 +62,15 @@ trigger = false
 
 [node name="basic_wall" parent="." instance=ExtResource( 2 )]
 
-transform/pos = Vector2( 127.685, 186.616 )
+transform/pos = Vector2( 411.071, 195.641 )
 
 [node name="basic_wall 2" parent="." instance=ExtResource( 2 )]
 
 transform/pos = Vector2( -38.0599, 189.072 )
 
-[node name="bear_enemy" parent="." instance=ExtResource( 3 )]
+[node name="wolf_enemy" parent="." instance=ExtResource( 3 )]
 
-transform/pos = Vector2( 29.4657, 128.905 )
+transform/pos = Vector2( 206.673, 165.158 )
 collision/margin = 0.08
 
 
