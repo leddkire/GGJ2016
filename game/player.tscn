@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 [gd_scene load_steps=5 format=1]
 
 [ext_resource path="res://player.gd" type="Script" id=1]
@@ -6,6 +7,9 @@
 
 custom_solver_bias = 0.0
 extents = Vector2( 10, 10 )
+=======
+[gd_scene load_steps=3 format=1]
+>>>>>>> c364e71b146b66e7b57be816d9a46d4a491796df
 
 [sub_resource type="ImageTexture" id=1]
 
@@ -15,12 +19,27 @@ size = Vector2( 33, 50 )
 storage = 0
 lossy_quality = 0.7
 
+<<<<<<< HEAD
 [sub_resource type="RectangleShape2D" id=3]
 
 custom_solver_bias = 0.0
 extents = Vector2( 16.6703, 25.0943 )
 
 [node name="player" type="KinematicBody2D"]
+=======
+[sub_resource type="Animation" id=2]
+
+resource/name = "repulsor"
+length = 1.0
+loop = false
+step = 0.1
+tracks/0/type = "method"
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/keys = { "times":FloatArray( 0, 1 ), "transitions":FloatArray( 1, 1 ), "values":[ { "args":[  ], "method":"create_repulsor" }, { "args":[  ], "method":"remove_repulsor" } ] }
+
+[node name="KinematicBody2D" type="KinematicBody2D"]
+>>>>>>> c364e71b146b66e7b57be816d9a46d4a491796df
 
 input/pickable = false
 shapes/0/shape = SubResource( 2 )
@@ -29,7 +48,10 @@ shapes/0/trigger = false
 collision/layers = 1
 collision/mask = 1
 collision/margin = 0.08
+<<<<<<< HEAD
 script/script = ExtResource( 1 )
+=======
+>>>>>>> c364e71b146b66e7b57be816d9a46d4a491796df
 __meta__ = { "__editor_plugin_screen__":"Script" }
 
 [node name="Sprite" type="Sprite" parent="."]
@@ -68,6 +90,19 @@ shape = SubResource( 3 )
 trigger = false
 _update_shape_index = 0
 
+<<<<<<< HEAD
 [connection signal="body_enter" from="Area2D" to="." method="_on_Area2D_body_enter"]
+=======
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+playback/process_mode = 1
+playback/default_blend_time = 0.0
+root/root = NodePath("..")
+anims/repulsor = SubResource( 2 )
+playback/active = true
+playback/speed = 1.0
+blend_times = [  ]
+autoplay = ""
+>>>>>>> c364e71b146b66e7b57be816d9a46d4a491796df
 
 
