@@ -8,7 +8,7 @@ const RUN_SPEED = 1200
 const JUMP_SPEED = 300
 const JUMP_HEIGHT = 1000
 const TIMEOUT_IDLE = 1
-const TIMEOUT_CHARGING = 1.5
+const TIMEOUT_CHARGING = 0.5
 const TIMEOUT_FREEZED = 2
 const TIMEOUT_ATTACKING = 2
 
@@ -115,11 +115,7 @@ func process_map_collisions():
 		var body = get_collider()
 		if(body.is_in_group("wall")):
 			facing_dir = -facing_dir
-	if(cast.is_colliding()):
-		var body = cast.get_collider()
-		if(body.is_in_group("player") and not (state == ATTACKING or state == CHARGING)):
-			state = CHASING
-			target = body
+			
 
 func _fixed_process(delta):
 	process_map_collisions()
@@ -138,3 +134,9 @@ func _ready():
 	set_fixed_process(true)
 
 
+
+
+func _on_cast_range_body_enter( body ):
+	if(body.is_in_group("player") and not (state == ATTACKING or state == CHARGING)):
+		state = CHASING
+		target = body
