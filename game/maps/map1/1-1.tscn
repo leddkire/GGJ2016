@@ -33,7 +33,7 @@ invert/border = 100.0
 
 [node name="player" parent="." instance=ExtResource( 1 )]
 
-transform/pos = Vector2( -45.4263, 69.981 )
+transform/pos = Vector2( -41.7431, 77.3474 )
 collision/margin = 0.08
 
 [node name="floor" type="StaticBody2D" parent="."]

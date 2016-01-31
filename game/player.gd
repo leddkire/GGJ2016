@@ -18,9 +18,9 @@ const item_class = preload("res://item.gd")
 const GRAVITY = 900.0               # in [px/s]
 const FLOOR_ANGLE_TOLERANCE = 40
 const WALK_FORCE = 1200              # given force when left/right key is pressed, in [px/s]
-const WALK_MAX_SPEED = 300          # maximum speed of the player, in [px/s]
+const WALK_MAX_SPEED = 200          # maximum speed of the player, in [px/s]
 const STOP_FORCE = 1800             # friction when no movement key is pressed, in [px/s]
-const JUMP_SPEED = 500              # initial velocity when doing a jump, in [px/s]
+const JUMP_SPEED = 300              # initial velocity when doing a jump, in [px/s]
 const JUMP_MAX_AIRBORNE_TIME=0.2    # tolerance of error for time not touching the ground when trying to jump, in [s]. Often the player is for a fraction of second in air, because of the way physics work.
 const FLY_JUMP_SPEED = 300          # given force when going up when the player is flying, in [px/s].
 
@@ -94,7 +94,14 @@ func _fixed_process(delta):
 		if(action_state == SHOOT_ACTION):
 			perform_shoot()
 			busy = true
-	set_scale(Vector2(sign(dir_facing),1))
+	#check_dir_facing()
+
+func check_dir_facing():
+	var scale = get_scale()
+	if(sign(dir_facing) == 1):
+		set_scale(Vector2(1,scale.y))
+	else:
+		set_scale(Vector2(-1,scale.y))
 
 # function that makes the player move with physics
 func _do_move(delta):
@@ -152,13 +159,11 @@ func _do_move(delta):
 	if (walk_left):
 		if (velocity.x<=0 and velocity.x > -WALK_MAX_SPEED*xSpeedFactor):
 			force.x-=WALK_FORCE
-			dir_facing = -1
 			stop=false
 		
 	elif (walk_right):
 		if (velocity.x>=0 and velocity.x < WALK_MAX_SPEED*xSpeedFactor):
 			force.x+=WALK_FORCE
-			dir_facing = 1
 			stop=false
 	
 #	elif (walk_up): # if not inflated, starts to inflate like a balloon. Otherwise, fly higher.
@@ -181,7 +186,6 @@ func _do_move(delta):
 	
 	#integrate forces to velocity
 	velocity += force * delta
-	
 	
 	#integrate velocity into motion and move
 	var motion = velocity * delta
@@ -249,8 +253,10 @@ func _do_move(delta):
 	if (new_siding_left!=siding_left):
 		if (new_siding_left):
 			get_node("Sprite").set_scale( Vector2(-1,1) )
+			dir_facing = -1
 		else:
 			get_node("Sprite").set_scale( Vector2(1,1) )
+			dir_facing = 1
 			
 		siding_left=new_siding_left
 	
@@ -294,6 +300,13 @@ func _on_Area2D_body_enter( body ):
 	if (body extends item_class):
 		get_node("/root/game_data").add_item_qty(body.get_texture_name())
 		body.free()
+	if(body.is_in_group("attack")):
+		#Every body in the attack group must have this function
+		get_node("/root/camera").cam_target= null
+		var same_scn = get_node("/root/global").current_scene_path
+		get_node("/root/global").goto_playable_scene("res://game_over/game_over.scn",null)
+
+
 #	if(body extends enemy_class and body.alive):
 #		hit()
 #		body.explode()
@@ -379,15 +392,17 @@ func perform_idle():
 func perform_shoot():
 	print("channeling shoot")
 	anim_player.play("shoot")
-	channeling = true
 
+func begin_shoot():
+	channeling = true
+	
 func player_shoot():
 	print("shot")
 	channeling = false
 	var projectile_node = projectile_scn.instance()
 	var player_pos = get_pos()
-	var p_dir = sign(dir_facing) * 30
-	var projectile_pos = player_pos + Vector2(p_dir,10)
+	var p_dir = sign(dir_facing) * 20
+	var projectile_pos = player_pos + Vector2(p_dir,-5)
 	projectile_node.set_pos(projectile_pos)
 	projectile_node.dir = dir_facing
 	get_node("..").add_child(projectile_node)
@@ -401,7 +416,8 @@ func create_repulsor():
 	print("performing repulsor")
 	channeling = true
 	var repulsor_node = repulsor_scn.instance()	
-	var repulsor_pos = Vector2(30,10)
+
+	var repulsor_pos = Vector2(10*dir_facing,-5)
 	repulsor_node.set_pos(repulsor_pos)
 	add_child(repulsor_node)
 

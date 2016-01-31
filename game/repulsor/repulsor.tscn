@@ -5,7 +5,7 @@
 [sub_resource type="RectangleShape2D" id=1]
 
 custom_solver_bias = 0.0
-extents = Vector2( 2.5, 10 )
+extents = Vector2( 6, 10 )
 
 [sub_resource type="GDScript" id=2]
 
@@ -15,7 +15,7 @@ script/source = "\nextends KinematicBody2D\n\n# member variables here, example:\
 
 input/pickable = false
 shapes/0/shape = SubResource( 1 )
-shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+shapes/0/transform = Matrix32( 1, -0, 0, 1, 0.874115, -0.174831 )
 shapes/0/trigger = true
 collision/layers = 1
 collision/mask = 1
@@ -25,6 +25,7 @@ __meta__ = { "__editor_plugin_screen__":"2D" }
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 
+transform/pos = Vector2( 0.874115, -0.174831 )
 shape = SubResource( 1 )
 trigger = true
 _update_shape_index = 0
