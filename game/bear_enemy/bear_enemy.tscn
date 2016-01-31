@@ -79,7 +79,7 @@ collision/layers = 1
 collision/mask = 1
 collision/margin = 0.08
 script/script = ExtResource( 1 )
-__meta__ = { "__editor_plugin_screen__":"2D" }
+__meta__ = { "__editor_plugin_screen__":"Script" }
 
 [node name="Sprite" type="Sprite" parent="."]
 
@@ -178,6 +178,7 @@ gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
+__meta__ = { "_editor_collapsed":true }
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="attack_range"]
 
@@ -211,6 +212,7 @@ shapes/0/trigger = true
 collision/layers = 1
 collision/mask = 1
 collision/margin = 0.08
+__meta__ = { "_editor_collapsed":true }
 
 [node name="Sprite" type="Sprite" parent="paw"]
 
