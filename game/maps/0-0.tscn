@@ -1,0 +1,39 @@
+[gd_scene load_steps=4 format=1]
+
+[ext_resource path="res://tile_sets/map0.res" type="TileSet" id=1]
+[ext_resource path="res://player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://bear_enemy/bear_enemy.tscn" type="PackedScene" id=3]
+
+[node name="root" type="Node"]
+
+__meta__ = { "__editor_plugin_screen__":"2D" }
+
+[node name="TileMap" type="TileMap" parent="."]
+
+mode = 0
+tile_set = ExtResource( 1 )
+cell/size = Vector2( 32, 32 )
+cell/quadrant_size = 16
+cell/custom_transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+cell/half_offset = 2
+cell/tile_origin = 0
+cell/y_sort = false
+collision/use_kinematic = false
+collision/friction = 1.0
+collision/bounce = 0.0
+collision/layers = 1
+collision/mask = 1
+occluder/light_mask = 1
+tile_data = IntArray( 196620, 0, 196621, 0, 196622, 0, 196623, 0, 196624, 0, 262150, 0, 262151, 0, 262152, 0, 262160, 0, 327684, 0, 327685, 0, 327686, 0, 327687, 0, 327688, 0, 327689, 0, 327696, 0, 458750, 0, 458751, 0, 393216, 0, 393217, 0, 393218, 0, 393219, 0, 393220, 0, 393221, 0, 393222, 0, 393223, 0, 393224, 0, 393225, 0, 393226, 0, 393227, 0, 393228, 0, 393229, 0, 393230, 0, 393231, 0, 393232, 0, 524286, 0, 524287, 0, 458752, 0, 458753, 0, 458754, 0, 458755, 0, 458756, 0, 458757, 0, 458758, 0, 458759, 0, 458760, 0, 458761, 0, 458762, 0, 458763, 0, 458764, 0, 458765, 0, 458766, 0, 458767, 0, 458768, 0 )
+
+[node name="player" parent="." instance=ExtResource( 2 )]
+
+transform/pos = Vector2( 58.7258, 140.72 )
+collision/margin = 0.08
+
+[node name="bear_enemy" parent="." instance=ExtResource( 3 )]
+
+transform/pos = Vector2( 391.685, 158.84 )
+transform/scale = Vector2( 1, 1 )
+
+
