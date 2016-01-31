@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=1]
+[gd_scene load_steps=7 format=1]
 
 [ext_resource path="res://wolf_enemy/wolf_enemy.gd" type="Script" id=1]
 [ext_resource path="res://wolf_enemy/wolf_enemy.png" type="Texture" id=2]
@@ -17,6 +17,11 @@ extents = Vector2( 16, 9 )
 
 custom_solver_bias = 0.0
 extents = Vector2( 60, 15 )
+
+[sub_resource type="RectangleShape2D" id=4]
+
+custom_solver_bias = 0.0
+extents = Vector2( 50, 10 )
 
 [node name="wolf_enemy" type="KinematicBody2D"]
 
@@ -68,9 +73,10 @@ autostart = false
 
 [node name="attack_range" type="Area2D" parent="."]
 
+visibility/visible = false
 input/pickable = true
 shapes/0/shape = SubResource( 3 )
-shapes/0/transform = Matrix32( 1, -0, 0, 1, 0, 0 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
@@ -97,18 +103,31 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="vision_cast" type="RayCast2D" parent="."]
+[node name="cast_range" type="Area2D" parent="."]
 
-transform/pos = Vector2( -3.25803, -12.2176 )
-enabled = true
-cast_to = Vector2( 150, 0 )
-layer_mask = 1
-type_mask = 15
+visibility/visible = false
+input/pickable = true
+shapes/0/shape = SubResource( 4 )
+shapes/0/transform = Matrix32( 1, -0, 0, 1, 95.5641, 0.174828 )
+shapes/0/trigger = false
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="cast_range"]
+
+transform/pos = Vector2( 95.5641, 0.174828 )
+shape = SubResource( 4 )
+trigger = false
+_update_shape_index = 0
 
 [connection signal="body_enter" from="contact_receiver" to="." method="_on_contact_receiver_body_enter"]
 
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
 
 [connection signal="body_enter" from="attack_range" to="." method="_on_attack_range_body_enter"]
+
+[connection signal="body_enter" from="cast_range" to="." method="_on_cast_range_body_enter"]
 
 
