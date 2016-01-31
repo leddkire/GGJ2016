@@ -17,7 +17,7 @@ func _on_contact_receiver_body_enter(body):
 		queue_free()
 
 func basic_enemy_move(delta):
-	velocity.y += delta * gravity
+	velocity.y += gravity
 	var motion = velocity * delta
 	motion = move(motion)
 
