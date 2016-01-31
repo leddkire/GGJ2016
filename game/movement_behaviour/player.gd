@@ -77,7 +77,7 @@ func _fixed_process(delta):
 func create_repulsor():
 	print("performing repulsor")
 	var repulsor_node = repulsor_scn.instance()	
-	var repulsor_pos = Vector2(10,0)
+	var repulsor_pos = Vector2(0,0)
 	var last_dir_facing = 1
 	repulsor_node.set_pos(repulsor_pos)
 	add_child(repulsor_node)

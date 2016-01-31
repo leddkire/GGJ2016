@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=1]
+[gd_scene load_steps=3 format=1]
 
 [ext_resource path="res://main.gd" type="Script" id=1]
+[ext_resource path="res://GUI/bat_wings.png" type="Texture" id=2]
 
 [node name="root" type="Node"]
 
@@ -8,6 +9,25 @@ script/script = ExtResource( 1 )
 __meta__ = { "__editor_plugin_screen__":"2D" }
 
 [node name="MapLayer" type="Node2D" parent="."]
+
+[node name="mainCamera" type="Camera2D" parent="MapLayer"]
+
+anchor_mode = 1
+rotating = false
+current = false
+zoom = Vector2( 1, 1 )
+limit/left = -10000000
+limit/top = -10000000
+limit/right = 10000000
+limit/bottom = 10000000
+drag_margin/h_enabled = false
+drag_margin/v_enabled = false
+smoothing/enable = true
+smoothing/speed = 15.0
+drag_margin/left = 0.2
+drag_margin/top = 0.2
+drag_margin/right = 0.2
+drag_margin/bottom = 0.2
 
 [node name="HUDLayer" type="CanvasLayer" parent="."]
 
@@ -21,10 +41,9 @@ scale = Vector2( 1, 1 )
 [node name="Polygon2D" type="Polygon2D" parent="HUDLayer/HUDRoot"]
 
 transform/pos = Vector2( -2.44354, 213.401 )
-transform/scale = Vector2( 1, 1 )
 polygon = Vector2Array( 0, 0, 450, 0, 430, 30, -10, 30 )
 uv = Vector2Array(  )
-color = Color( 0, 0, 0, 1 )
+color = Color( 0.1628, 0.149567, 0.226563, 1 )
 offset = Vector2( 0, 0 )
 texture/texture = null
 texture/offset = Vector2( 0, 0 )
@@ -32,6 +51,25 @@ texture/scale = Vector2( 1, 1 )
 texture/rotation = 0.0
 invert/enable = false
 invert/border = 100.0
+
+[node name="bat_wings" type="Sprite" parent="HUDLayer/HUDRoot"]
+
+transform/pos = Vector2( 31.1862, 218.726 )
+texture = ExtResource( 2 )
+
+[node name="Label" type="Label" parent="HUDLayer/HUDRoot/bat_wings"]
+
+margin/left = 16.0
+margin/top = -2.0
+margin/right = 44.0
+margin/bottom = 11.0
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+text = "X 0"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
 
 [node name="ScreenEffectLayer" type="CanvasLayer" parent="."]
 

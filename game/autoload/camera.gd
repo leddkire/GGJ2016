@@ -38,12 +38,11 @@ func follow(target):
 	#camera_pos.y = round(camera_pos.y)
 	#camera_pos.x = round(camera_pos.x)
 	camera.set_pos(camera_pos)
-	camera.update_labels(target.get_pos())
 
 func _ready():
 	var _root=get_tree().get_root()
 	root = _root.get_child(_root.get_child_count()-1)
-	camera = root.get_node("mainCamera")
+	camera = root.get_node("MapLayer/mainCamera")
 	if(camera):
 		camera.make_current()
 	print(camera)
