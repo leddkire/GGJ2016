@@ -52,6 +52,7 @@ func _on_contact_receiver_body_enter(body):
 
 	if(body.is_in_group("projectile")):
 		print("SHOT")
+		get_node("/root/game_data").add_item_qty("bear_claw.png")
 		body.queue_free()
 		queue_free()
 

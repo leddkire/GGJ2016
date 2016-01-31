@@ -1,9 +1,13 @@
-[gd_scene load_steps=5 format=1]
+[gd_scene load_steps=9 format=1]
 
 [ext_resource path="res://tile_sets/map0.res" type="TileSet" id=1]
 [ext_resource path="res://player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://bear_enemy/bear_enemy.tscn" type="PackedScene" id=3]
 [ext_resource path="res://wolf_enemy/wolf_enemy.tscn" type="PackedScene" id=4]
+[ext_resource path="res://item.tscn" type="PackedScene" id=5]
+[ext_resource path="res://GUI/bat_wings.png" type="Texture" id=6]
+[ext_resource path="res://Ingredients/shroom2.png" type="Texture" id=7]
+[ext_resource path="res://Ingredients/shroom3.png" type="Texture" id=8]
 
 [node name="root" type="Node"]
 
@@ -31,19 +35,58 @@ tile_data = IntArray( -131051, 0, -131050, 0, -131033, 0, -131032, 0, -65521, 0,
 [node name="player" parent="." instance=ExtResource( 2 )]
 
 transform/pos = Vector2( 58.7258, 140.72 )
-collision/margin = 0.08
 
 [node name="bear_enemy" parent="." instance=ExtResource( 3 )]
 
 transform/pos = Vector2( 391.685, 158.84 )
+collision/margin = 0.08
 
 [node name="bear_enemy1" parent="." instance=ExtResource( 3 )]
 
 transform/pos = Vector2( 526.158, 14.4396 )
+collision/margin = 0.08
 
 [node name="wolf_enemy" parent="." instance=ExtResource( 4 )]
 
 transform/pos = Vector2( 968.824, -28.6619 )
 collision/margin = 0.08
 
+[node name="item" parent="." instance=ExtResource( 5 )]
 
+[node name="Sprite" parent="item"]
+
+transform/scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 6 )
+
+[node name="Area2D" parent="item"]
+
+linear_damp = 0.1
+
+[node name="item 2" parent="." instance=ExtResource( 5 )]
+
+transform/pos = Vector2( 426.884, 11.3475 )
+
+[node name="Sprite" parent="item 2"]
+
+texture = ExtResource( 7 )
+
+[node name="Area2D" parent="item 2"]
+
+linear_damp = 0.1
+
+[node name="item 3" parent="." instance=ExtResource( 5 )]
+
+transform/pos = Vector2( 79.4328, 42.6884 )
+
+[node name="Sprite" parent="item 3"]
+
+texture = ExtResource( 8 )
+
+[node name="Area2D" parent="item 3"]
+
+linear_damp = 0.1
+
+
+[editable path="item"]
+[editable path="item 2"]
+[editable path="item 3"]

@@ -300,48 +300,12 @@ func _on_Area2D_body_enter( body ):
 	if (body extends item_class):
 		get_node("/root/game_data").add_item_qty(body.get_texture_name())
 		body.free()
-	if(body.is_in_group("attack")):
+	elif(body.is_in_group("attack")):
 		#Every body in the attack group must have this function
 		get_node("/root/camera").cam_target= null
 		var same_scn = get_node("/root/global").current_scene_path
 		get_node("/root/global").goto_playable_scene("res://game_over/game_over.scn",null)
 
-
-#	if(body extends enemy_class and body.alive):
-#		hit()
-#		body.explode()
-#	if(body extends bonus_class):
-#		get_bonus(body.bonus_type)
-#		body.queue_free()
-#	if("is_enemy" in body):
-#		hit()
-#
-# event when the player is hit, is knocked back and lose life.
-# edit: here should also start a phase of immortality
-#func hit():
-#	var instance=hit_stars.instance()
-#	instance.set_direction(siding_left)
-#	add_child(instance)
-#	if(siding_left):
-#		velocity+=Vector2(500,0)
-#	else:
-#		velocity-=Vector2(500,0)
-#	get_node("/root/gamedata").remove_player_life(1)
-#	sfx_node.play("hit")
-#
-# gives the player the effect of a bonus.
-# int bonus_type : type of bonus (see bonus resource)
-#func get_bonus(bonus_type):
-#	var gameData=get_node("/root/gamedata")
-#	if(bonus_type==0):
-#		gameData.increase_player_life(3)
-#		sfx_node.play("health")
-#	elif(bonus_type==1):
-#		gameData.restore_player_life()
-#		sfx_node.play("health")
-#	elif(bonus_type==2):
-#		gameData.add_player_continue()
-#		sfx_node.play("life")
 
 # allocate the which the player can interact with.
 # Door door : door node. If null, it means the player cannot interact with a door (which is the case most of the time).

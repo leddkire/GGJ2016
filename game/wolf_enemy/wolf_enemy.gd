@@ -41,6 +41,7 @@ func _on_contact_receiver_body_enter(body):
 		timer.set_wait_time(TIMEOUT_FREEZED)
 	if(body.is_in_group("projectile")):
 		print("SHOT")
+		get_node("/root/game_data").add_item_qty("tooth.png")
 		body.queue_free()
 		queue_free()
 

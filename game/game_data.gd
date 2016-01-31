@@ -58,50 +58,28 @@ func _update_player_life():
 	var lifeBar=get_scene().get_nodes_in_group("lifeBar")[0]
 	lifeBar.set_life(playerData.life)
 
-# changes the player's score and display it
+
 func add_item_qty(texture):
-	if texture == "cherry.png":
+	if texture == "bat_wings.png":
 		_update_item(0)
-	elif texture == "banana.png":
+	elif texture == "bear_claw.png":
 		_update_item(1)
-	elif texture == "mango.png":
+	elif texture == "tooth.png":
 		_update_item(2)
-	elif texture == "berry.png":
+	elif texture == "mushroom_icon.png" or texture == "shroom1.png" or texture == "shroom2.png" or texture == "shroom3.png":
 		_update_item(3)
 
-# reset the player's score, like for a new game, and display it
-func reset_player_score():
-	playerData.score=0
-	_update_player_score()
 
-# tells the HUD to display the new value of player's score
-func _update_player_score():
-	var scoreLabel=get_scene().get_nodes_in_group("score")[0]
-	scoreLabel.set_text(str(playerData.score))
-
-# removes one continue to the player.
-# normally if the player has no more continues, the game should go to a game over scene.
-func dec_player_continue():
-	playerData.continues-=1
-	if(playerData.continues<0):
-		playerData.continues=0 # game over
-	_update_player_continues()
-
-# adds a continue to the player, like when he eats a 1up element or when his score reaches a certain value.
-func add_player_continue():
-	playerData.continues+=1
-	_update_player_continues()
-
-# resets the continues of the player, like for a new game
-func reset_player_continue():
-	playerData.continues=4
-	_update_player_continues()
-
-# displays the change of the player's continues
 func _update_item(item):
 	var item_obj=get_tree().get_nodes_in_group("items")[0].get_children()[item]
 	itemsQty[item] += 1
 	item_obj.get_node("label").set_text("x"+ str(itemsQty[item]))
+
+func _reset_items():
+	itemsQty = [0,0,0,0]
+	for item in get_tree().get_nodes_in_group("items")[0].get_children():
+		item.get_node("label").set_text("x0")
+
 
 
 # --- for the boss
