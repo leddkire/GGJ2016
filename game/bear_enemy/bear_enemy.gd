@@ -107,9 +107,12 @@ func update_labels():
 
 func process_map_collisions():
 	if(is_colliding()):
+
 		var body = get_collider()
-		if(body.is_in_group("wall")):
-			facing_dir = -facing_dir
+		var n = get_collision_normal()
+		print(body.get_type())
+		if(n.x != 0):
+			facing_dir = n.x
 		if(state == BOMBEADO && not stunned):
 			if(not body.is_in_group("repulsor")):
 				if(target):

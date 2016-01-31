@@ -20,7 +20,7 @@ const FLOOR_ANGLE_TOLERANCE = 40
 const WALK_FORCE = 1200              # given force when left/right key is pressed, in [px/s]
 const WALK_MAX_SPEED = 300          # maximum speed of the player, in [px/s]
 const STOP_FORCE = 1800             # friction when no movement key is pressed, in [px/s]
-const JUMP_SPEED = 500              # initial velocity when doing a jump, in [px/s]
+const JUMP_SPEED = 300              # initial velocity when doing a jump, in [px/s]
 const JUMP_MAX_AIRBORNE_TIME=0.2    # tolerance of error for time not touching the ground when trying to jump, in [s]. Often the player is for a fraction of second in air, because of the way physics work.
 const FLY_JUMP_SPEED = 300          # given force when going up when the player is flying, in [px/s].
 
