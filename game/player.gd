@@ -306,9 +306,10 @@ func _on_Area2D_body_enter( body ):
 	if (body extends item_class):
 		get_node("/root/game_data").add_item_qty(body.get_texture_name())
 		body.free()
-	if(body.is_in_group("attack")):
-		get_node("/root/camera").cam_target = null
-		queue_free()
+	elif(body.is_in_group("attack")):
+		get_node("/root/camera").cam_target= null
+		var same_scn = get_node("/root/global").current_scene_path
+		get_node("/root/global").goto_playable_scene("res://game_over/game_over.scn",null)
 
 
 #	if(body extends enemy_class and body.alive):
