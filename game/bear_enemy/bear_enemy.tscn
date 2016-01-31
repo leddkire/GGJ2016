@@ -23,7 +23,7 @@ extents = Vector2( 40, 16 )
 
 custom_solver_bias = 0.0
 radius = 15.0
-height = 40.0
+height = 10.0
 
 [sub_resource type="Animation" id=5]
 
@@ -54,7 +54,7 @@ step = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath("paw:transform/pos")
 tracks/0/interp = 1
-tracks/0/keys = { "cont":true, "times":FloatArray( 0, 0.5, 0.6, 0.7 ), "transitions":FloatArray( 1, 1, 1, 1 ), "values":[ Vector2( 15, -15 ), Vector2( 15, -15 ), Vector2( 23.4119, -1.08806 ), Vector2( 19.5295, 11.2062 ) ] }
+tracks/0/keys = { "cont":true, "times":FloatArray( 0, 0.5, 0.6, 0.7, 0.8, 0.9 ), "transitions":FloatArray( 1, 1, 1, 1, 1, 1 ), "values":[ Vector2( 4.32339, 0.52961 ), Vector2( 9.30581, -2.18807 ), Vector2( 16.2941, -9.82346 ), Vector2( 26.0002, -0.764528 ), Vector2( 15.3236, 10.5591 ), Vector2( 3.99988, 5.05907 ) ] }
 tracks/1/type = "method"
 tracks/1/path = NodePath(".")
 tracks/1/interp = 1
@@ -117,6 +117,7 @@ __meta__ = { "_edit_lock_":true }
 
 [node name="direction_facing" type="Label" parent="."]
 
+visibility/visible = false
 margin/left = -20.0
 margin/top = -71.0
 margin/right = 20.0
@@ -130,6 +131,7 @@ max_lines_visible = -1
 
 [node name="current_state" type="Label" parent="."]
 
+visibility/visible = false
 margin/left = -20.0
 margin/top = -59.0
 margin/right = 20.0
@@ -170,7 +172,7 @@ autostart = false
 
 input/pickable = true
 shapes/0/shape = SubResource( 4 )
-shapes/0/transform = Matrix32( -4.37114e-008, -1, 1, -4.37114e-008, 32, 0 )
+shapes/0/transform = Matrix32( -4.37114e-008, -1, 1, -4.37114e-008, 6, 0 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
@@ -179,7 +181,7 @@ angular_damp = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="attack_range"]
 
-transform/pos = Vector2( 32, 0 )
+transform/pos = Vector2( 6, 0 )
 transform/rot = 90.0
 shape = SubResource( 4 )
 trigger = false
@@ -200,10 +202,11 @@ autoplay = "walk"
 
 [node name="paw" type="KinematicBody2D" parent="."]
 
-transform/pos = Vector2( 19.5295, 11.2062 )
+visibility/visible = false
+transform/pos = Vector2( 3.99988, 5.05907 )
 input/pickable = false
 shapes/0/shape = SubResource( 8 )
-shapes/0/transform = Matrix32( 1, -0, 0, 1, 0, 0 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
 shapes/0/trigger = true
 collision/layers = 1
 collision/mask = 1
@@ -237,6 +240,8 @@ autostart = false
 [connection signal="timeout" from="patience" to="." method="_on_patience_timeout"]
 
 [connection signal="body_enter" from="attack_range" to="." method="_on_attack_range_body_enter"]
+
+[connection signal="body_exit" from="attack_range" to="." method="_on_attack_range_body_exit"]
 
 [connection signal="timeout" from="stun_timer" to="." method="_on_stun_timer_timeout"]
 

@@ -16,6 +16,7 @@ var velocity = Vector2()
 var cast
 var move_spd = 1200
 var target
+var target_near
 var patience
 var check_p
 var anim_player
@@ -31,6 +32,9 @@ var repulsed = false
 #Repulsor node
 var repulsor = null
 
+#Called when the target has been eliminated
+func clean_up():
+	target = null
 
 func _on_contact_receiver_body_enter(body):
 	if(body.is_in_group("repulsor")):
@@ -57,12 +61,16 @@ func perform_bear_movement(delta):
 		velocity.x = move_spd * sign(facing_dir)
 	if(state == CHASING):
 		var pos = get_pos()
-		var target_pos = target.get_pos()
+		var target_pos = pos
+		if(target != null):
+			target_pos = target.get_pos()
 		var pos_diff = target_pos - pos
 		velocity.x = move_spd * sign(pos_diff.x)
 		facing_dir = sign(pos_diff.x)
 	if(state==BOMBEADO):
 		pass
+	if(block_until_attack_end):
+		velocity.x+= sign(facing_dir) * WALK_MAX_SPEED*0.75
 	var motion = velocity* delta
 	motion = move(motion)		
 	if(is_colliding()):
@@ -110,7 +118,6 @@ func process_map_collisions():
 
 		var body = get_collider()
 		var n = get_collision_normal()
-		print(body.get_type())
 		if(n.x != 0):
 			facing_dir = n.x
 		if(state == BOMBEADO && not stunned):
@@ -150,17 +157,21 @@ func _on_patience_timeout():
 	target = null
 
 func notify_end_attack():
-	anim_player.play("walk")
-	block_until_attack_end = false
+	if(target_near):
+		anim_player.play("attack")
+	else:
+		anim_player.play("walk")
+		block_until_attack_end = false
 
 func _on_attack_range_body_enter(body):
 	if(body.is_in_group("player")):
 		if(not block_until_attack_end):
 			anim_player.play("attack")
 			block_until_attack_end = true
+			velocity.x = 0
 
 func _on_attack_range_body_exit(body):
-	pass
+	target_near = false
 
 func _fixed_process(delta):
 	process_map_collisions()
@@ -176,11 +187,12 @@ func _ready():
 		facing_dir = 1
 	state = WANDERING
 	gravity = get_node("/root/globals").gravity
-	cast = get_node("vision_cast")
 	patience = get_node("patience")
 	anim_player = get_node("AnimationPlayer")
+	get_node("paw").add_to_group("attack")
 	anim_player.play("walk")
 	block_until_attack_end = false
 	check_p = false
+	target_near = false
 	set_fixed_process(true)
 
