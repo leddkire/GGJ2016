@@ -1,14 +1,12 @@
-[gd_scene load_steps=10 format=1]
+[gd_scene load_steps=8 format=1]
 
 [ext_resource path="res://main.gd" type="Script" id=1]
 [ext_resource path="res://GUI/wings.png" type="Texture" id=2]
 [ext_resource path="res://GUI/bear_claw.png" type="Texture" id=3]
 [ext_resource path="res://GUI/tooth.png" type="Texture" id=4]
 [ext_resource path="res://res/banana.png" type="Texture" id=5]
-[ext_resource path="res://Ingredients/shroom1.png" type="Texture" id=6]
-[ext_resource path="res://Ingredients/shroom2.png" type="Texture" id=7]
-[ext_resource path="res://Ingredients/shroom3.png" type="Texture" id=8]
-[ext_resource path="res://GUI/bat_wings.png" type="Texture" id=9]
+[ext_resource path="res://Ingredients/mushroom_icon.png" type="Texture" id=6]
+[ext_resource path="res://GUI/bat_wings.png" type="Texture" id=7]
 
 [node name="root" type="Node"]
 
@@ -171,24 +169,14 @@ max_lines_visible = -1
 
 [node name="Sprite" type="Sprite" parent="HUDLayer/HUDRoot/items/shrooms"]
 
-transform/pos = Vector2( -7.35092, -0.735092 )
+transform/pos = Vector2( -8.08603, 4.41055 )
 texture = ExtResource( 6 )
-
-[node name="Sprite1" type="Sprite" parent="HUDLayer/HUDRoot/items/shrooms"]
-
-transform/pos = Vector2( 8.08603, -0.735092 )
-texture = ExtResource( 7 )
-
-[node name="Sprite2" type="Sprite" parent="HUDLayer/HUDRoot/items/shrooms"]
-
-transform/pos = Vector2( 0.735092, 6.61583 )
-texture = ExtResource( 8 )
 
 [node name="bat_wings" type="Sprite" parent="HUDLayer/HUDRoot"]
 
 visibility/visible = false
 transform/pos = Vector2( 31.1862, 218.726 )
-texture = ExtResource( 9 )
+texture = ExtResource( 7 )
 __meta__ = { "_editor_collapsed":true }
 
 [node name="Label" type="Label" parent="HUDLayer/HUDRoot/bat_wings"]
