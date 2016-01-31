@@ -1,11 +1,14 @@
-[gd_scene load_steps=7 format=1]
+[gd_scene load_steps=10 format=1]
 
 [ext_resource path="res://main.gd" type="Script" id=1]
 [ext_resource path="res://GUI/wings.png" type="Texture" id=2]
 [ext_resource path="res://GUI/bear_claw.png" type="Texture" id=3]
 [ext_resource path="res://GUI/tooth.png" type="Texture" id=4]
 [ext_resource path="res://res/banana.png" type="Texture" id=5]
-[ext_resource path="res://GUI/bat_wings.png" type="Texture" id=6]
+[ext_resource path="res://Ingredients/shroom1.png" type="Texture" id=6]
+[ext_resource path="res://Ingredients/shroom2.png" type="Texture" id=7]
+[ext_resource path="res://Ingredients/shroom3.png" type="Texture" id=8]
+[ext_resource path="res://GUI/bat_wings.png" type="Texture" id=9]
 
 [node name="root" type="Node"]
 
@@ -60,12 +63,12 @@ invert/border = 100.0
 
 [node name="wing" type="Node2D" parent="HUDLayer/HUDRoot/items"]
 
-transform/pos = Vector2( 48.4234, 214.761 )
+transform/pos = Vector2( 50, 215 )
 
 [node name="label" type="Label" parent="HUDLayer/HUDRoot/items/wing"]
 
-margin/left = 8.0
-margin/right = 29.0
+margin/left = 16.0
+margin/right = 37.0
 margin/bottom = 13.0
 focus/ignore_mouse = true
 focus/stop_mouse = true
@@ -82,14 +85,13 @@ texture = ExtResource( 2 )
 
 [node name="bear_paw" type="Node2D" parent="HUDLayer/HUDRoot/items"]
 
-transform/pos = Vector2( 109.016, 217.546 )
+transform/pos = Vector2( 120, 215 )
 
 [node name="label" type="Label" parent="HUDLayer/HUDRoot/items/bear_paw"]
 
-margin/left = 25.0
-margin/top = -1.0
-margin/right = 46.0
-margin/bottom = 12.0
+margin/left = 16.0
+margin/right = 37.0
+margin/bottom = 13.0
 focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
@@ -105,14 +107,13 @@ texture = ExtResource( 3 )
 
 [node name="tooth" type="Node2D" parent="HUDLayer/HUDRoot/items"]
 
-transform/pos = Vector2( 181.722, 219.284 )
+transform/pos = Vector2( 190, 215 )
 
 [node name="label" type="Label" parent="HUDLayer/HUDRoot/items/tooth"]
 
-margin/left = 21.0
-margin/top = -3.0
-margin/right = 42.0
-margin/bottom = 10.0
+margin/left = 16.0
+margin/right = 37.0
+margin/bottom = 13.0
 focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
@@ -151,11 +152,44 @@ max_lines_visible = -1
 transform/pos = Vector2( -0.205582, -0.397249 )
 texture = ExtResource( 5 )
 
+[node name="shrooms" type="Node2D" parent="HUDLayer/HUDRoot/items"]
+
+transform/pos = Vector2( 260, 215 )
+
+[node name="label" type="Label" parent="HUDLayer/HUDRoot/items/shrooms"]
+
+margin/left = 16.0
+margin/right = 37.0
+margin/bottom = 13.0
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+text = "X 0"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Sprite" type="Sprite" parent="HUDLayer/HUDRoot/items/shrooms"]
+
+transform/pos = Vector2( -7.35092, -0.735092 )
+texture = ExtResource( 6 )
+
+[node name="Sprite1" type="Sprite" parent="HUDLayer/HUDRoot/items/shrooms"]
+
+transform/pos = Vector2( 8.08603, -0.735092 )
+texture = ExtResource( 7 )
+
+[node name="Sprite2" type="Sprite" parent="HUDLayer/HUDRoot/items/shrooms"]
+
+transform/pos = Vector2( 0.735092, 6.61583 )
+texture = ExtResource( 8 )
+
 [node name="bat_wings" type="Sprite" parent="HUDLayer/HUDRoot"]
 
 visibility/visible = false
 transform/pos = Vector2( 31.1862, 218.726 )
-texture = ExtResource( 6 )
+texture = ExtResource( 9 )
+__meta__ = { "_editor_collapsed":true }
 
 [node name="Label" type="Label" parent="HUDLayer/HUDRoot/bat_wings"]
 
