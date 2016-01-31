@@ -385,8 +385,10 @@ func perform_idle():
 func perform_shoot():
 	print("channeling shoot")
 	anim_player.play("shoot")
-	channeling = true
 
+func begin_shoot():
+	channeling = true
+	
 func player_shoot():
 	print("shot")
 	channeling = false
