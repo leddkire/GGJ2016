@@ -63,6 +63,7 @@ var normal_animations=["Idle","run","fall"]
 var charged_animations=["chargedIdle","chargedRun","chargedFall"]
 
 #States for invoker abilities
+var busy = false
 var action_state= IDLE_ACTION
 var IDLE_ACTION = 0
 var REPULSOR_ACTION = 1
@@ -85,11 +86,13 @@ func idle_state_function(ev):
 func _fixed_process(delta):
 	if(state!=STATE_CUTSCENE && not channeling):
 		_do_move(delta)
-	if(not anim_player.is_playing()):
+	if(not busy):
 		if(action_state == REPULSOR_ACTION):
 			perform_repulsion()
+			busy = true
 		if(action_state == SHOOT_ACTION):
 			perform_shoot()
+			busy = true
 	set_scale(Vector2(sign(dir_facing),1))
 
 # function that makes the player move with physics
@@ -362,13 +365,19 @@ func _on_Traverse_timeout():
 	traverse_floor=false
 	_switch_layer()
 
+func perform_idle():
+	action_state = IDLE_ACTION
+	busy = false
+	print("Back to idle")
+	anim_player.play("idle")
+	
 func perform_shoot():
 	print("channeling shoot")
 	anim_player.play("shoot")
 	channeling = true
 
 func player_shoot():
-	print("shooting")
+	print("shot")
 	channeling = false
 	var projectile_node = projectile_scn.instance()
 	var player_pos = get_pos()
@@ -377,8 +386,7 @@ func player_shoot():
 	projectile_node.set_pos(projectile_pos)
 	projectile_node.dir = dir_facing
 	get_node("..").add_child(projectile_node)
-	action_state = IDLE_ACTION
-
+	perform_idle()
 
 func perform_repulsion():
 	anim_player.play("repulsor")
@@ -398,5 +406,5 @@ func remove_repulsor():
 	channeling = false
 	var repulsor_node = get_node("repulsor")	
 	repulsor_node.queue_free()
-	action_state = IDLE_ACTION
 	block_facing = false
+	perform_idle()
