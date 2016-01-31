@@ -1,11 +1,15 @@
-[gd_scene load_steps=2 format=1]
+[gd_scene load_steps=6 format=1]
 
 [ext_resource path="res://main.gd" type="Script" id=1]
+[ext_resource path="res://res/cherry.png" type="Texture" id=2]
+[ext_resource path="res://res/banana.png" type="Texture" id=3]
+[ext_resource path="res://res/mango.png" type="Texture" id=4]
+[ext_resource path="res://res/berry.png" type="Texture" id=5]
 
 [node name="root" type="Node"]
 
 script/script = ExtResource( 1 )
-__meta__ = { "__editor_plugin_screen__":"2D" }
+__meta__ = { "__editor_plugin_screen__":"Script" }
 
 [node name="MapLayer" type="Node2D" parent="."]
 
@@ -21,7 +25,6 @@ scale = Vector2( 1, 1 )
 [node name="Polygon2D" type="Polygon2D" parent="HUDLayer/HUDRoot"]
 
 transform/pos = Vector2( -2.44354, 213.401 )
-transform/scale = Vector2( 1, 1 )
 polygon = Vector2Array( 0, 0, 450, 0, 430, 30, -10, 30 )
 uv = Vector2Array(  )
 color = Color( 0, 0, 0, 1 )
@@ -32,6 +35,103 @@ texture/scale = Vector2( 1, 1 )
 texture/rotation = 0.0
 invert/enable = false
 invert/border = 100.0
+
+[node name="items" type="Node" parent="HUDLayer/HUDRoot" groups=[ "items" ]]
+
+[node name="cherry" type="Node2D" parent="HUDLayer/HUDRoot/items"]
+
+transform/pos = Vector2( 49.0221, 219.551 )
+__meta__ = { "_editor_collapsed":true }
+
+[node name="label" type="Label" parent="HUDLayer/HUDRoot/items/cherry"]
+
+margin/left = 8.0
+margin/right = 29.0
+margin/bottom = 13.0
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+text = "X 0"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Sprite" type="Sprite" parent="HUDLayer/HUDRoot/items/cherry"]
+
+transform/pos = Vector2( -5.56099, 5.35539 )
+texture = ExtResource( 2 )
+
+[node name="banana" type="Node2D" parent="HUDLayer/HUDRoot/items"]
+
+transform/pos = Vector2( 254.509, 225.33 )
+__meta__ = { "_editor_collapsed":true }
+
+[node name="label" type="Label" parent="HUDLayer/HUDRoot/items/banana"]
+
+margin/left = 13.0
+margin/top = -6.0
+margin/right = 34.0
+margin/bottom = 7.0
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+text = "X 0"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Sprite1" type="Sprite" parent="HUDLayer/HUDRoot/items/banana"]
+
+transform/pos = Vector2( -0.205582, -0.397249 )
+texture = ExtResource( 3 )
+
+[node name="mango" type="Node2D" parent="HUDLayer/HUDRoot/items"]
+
+transform/pos = Vector2( 145.199, 225.87 )
+__meta__ = { "_editor_collapsed":true }
+
+[node name="label" type="Label" parent="HUDLayer/HUDRoot/items/mango"]
+
+margin/left = 13.0
+margin/top = -6.0
+margin/right = 34.0
+margin/bottom = 7.0
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+text = "X 0"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Sprite1" type="Sprite" parent="HUDLayer/HUDRoot/items/mango"]
+
+transform/pos = Vector2( -0.205582, -0.397249 )
+texture = ExtResource( 4 )
+
+[node name="berry" type="Node2D" parent="HUDLayer/HUDRoot/items"]
+
+transform/pos = Vector2( 359.274, 226.143 )
+__meta__ = { "_editor_collapsed":true }
+
+[node name="label" type="Label" parent="HUDLayer/HUDRoot/items/berry"]
+
+margin/left = 13.0
+margin/top = -6.0
+margin/right = 34.0
+margin/bottom = 7.0
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+text = "X 0"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Sprite1" type="Sprite" parent="HUDLayer/HUDRoot/items/berry"]
+
+transform/pos = Vector2( -0.205582, -0.397249 )
+texture = ExtResource( 5 )
 
 [node name="ScreenEffectLayer" type="CanvasLayer" parent="."]
 

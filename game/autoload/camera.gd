@@ -37,9 +37,10 @@ func follow(target):
 	camera.update_labels(target.get_pos())
 
 func _ready():
-	var _root=get_tree().get_root()
-	root = _root.get_child(_root.get_child_count()-1)
-	camera = root.get_node("mainCamera")
-	camera.make_current()
-	print(camera)
-	set_process(true)
+#	var _root=get_tree().get_root()
+#	root = _root.get_child(_root.get_child_count()-1)
+#	camera = root.get_node("mainCamera")
+#	camera.make_current()
+#	print(camera)
+#	set_process(true)
+	pass

@@ -12,6 +12,8 @@ var playerData={
 	continues=4
 }
 
+var itemsQty = [0,0,0,0]
+
 # name of the current default music. Used when a temporar music, like a boss theme or invulnerability, ends.
 # It should be updated when a new chapter is loaded, since each chapter in the original game has its default theme.
 var map_track="greens"
@@ -57,9 +59,15 @@ func _update_player_life():
 	lifeBar.set_life(playerData.life)
 
 # changes the player's score and display it
-func add_player_score(amount):
-	playerData.score+=amount
-	_update_player_score()
+func add_item_qty(texture):
+	if texture == "cherry.png":
+		_update_item(0)
+	elif texture == "banana.png":
+		_update_item(1)
+	elif texture == "mango.png":
+		_update_item(2)
+	elif texture == "berry.png":
+		_update_item(3)
 
 # reset the player's score, like for a new game, and display it
 func reset_player_score():
@@ -90,12 +98,10 @@ func reset_player_continue():
 	_update_player_continues()
 
 # displays the change of the player's continues
-func _update_player_continues():
-	var continuesLabel=get_scene().get_nodes_in_group("continues")[0]
-	var strContinues=str(playerData.continues)
-	if(playerData.continues<10):
-		strContinues="0"+strContinues
-	continuesLabel.set_text(strContinues)
+func _update_item(item):
+	var item_obj=get_tree().get_nodes_in_group("items")[0].get_children()[item]
+	itemsQty[item] += 1
+	item_obj.get_node("label").set_text("x"+ str(itemsQty[item]))
 
 
 # --- for the boss
