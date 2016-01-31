@@ -9,6 +9,7 @@ extends KinematicBody2D
 var state = WANDERING
 var WANDERING = 0
 var CHASING   = 1
+var BOMBEADO =2
 var facing_dir
 var gravity
 var velocity = Vector2()
@@ -20,13 +21,31 @@ var check_p
 var anim_player
 var block_until_attack_end
 
+#Movement Constants
+var WALK_MAX_SPEED = 200 
+var GRAV =900.0
+var WALK_FORCE = 1000
+#Flag that indicates whether the bear has been repulsed
+var stunned =false
+var repulsed = false
+#Repulsor node
+var repulsor = null
+
+
 func _on_contact_receiver_body_enter(body):
 	if(body.is_in_group("repulsor")):
 		print("REPULSED")
-		velocity.y=-50
-		var rep_x = body.get_pos().x
-		var diff_x = get_pos().x - rep_x
-		velocity.x = sign(diff_x) * 200
+		velocity.y = - 500
+		var body_pos = body.get_global_pos()
+		var pos = get_pos()
+		var xDiff = body_pos.x - pos.x
+		var scale = get_scale()
+		velocity.x = sign(xDiff) * -1000 
+		state = BOMBEADO
+		get_node("stun_timer").start()
+		repulsor = body
+		stunned = true
+
 	if(body.is_in_group("projectile")):
 		print("SHOT")
 		body.queue_free()
@@ -42,6 +61,8 @@ func perform_bear_movement(delta):
 		var pos_diff = target_pos - pos
 		velocity.x = move_spd * sign(pos_diff.x)
 		facing_dir = sign(pos_diff.x)
+	if(state==BOMBEADO):
+		pass
 	var motion = velocity* delta
 	motion = move(motion)		
 	if(is_colliding()):
@@ -49,27 +70,61 @@ func perform_bear_movement(delta):
 		motion = norm.slide(motion)
 		velocity = norm.slide(velocity)
 
+func alternate_move(delta):
+	var preventChangeAnimation = false
+
+	var gravityFactor =1
+	var xSpeedFactor = 1
+	var force = Vector2(0,GRAV*gravityFactor)
+	if(state==CHASING):
+		var pos = get_pos()
+		var target_pos = target.get_pos()
+		var pos_diff = target_pos - pos
+		facing_dir = sign(pos_diff.x)
+	if(sign(facing_dir) == -1):
+		if(velocity.x<=0 and velocity.x > -WALK_MAX_SPEED * xSpeedFactor):
+			force.x -= WALK_FORCE
+	elif(sign(facing_dir) == 1):
+		if(velocity.x>=0 and velocity.x < WALK_MAX_SPEED * xSpeedFactor):
+			force.x += WALK_FORCE
+	velocity += force*delta
+	var motion = velocity*delta
+	motion = move(motion)
+	if(is_colliding()):
+		var n = get_collision_normal()
+		motion = n.slide(motion)
+		velocity = n.slide(velocity)
+		move(motion)
+
 func update_labels():
 	var dir_facing = get_node("direction_facing")
 	var curr_state = get_node("current_state")
 	dir_facing.set_text("Direction: " + var2str(facing_dir))
 	curr_state.set_text("Current State: " + var2str(state))
-	var base_scale = Vector2(1,1)
-	dir_facing.set_scale(base_scale)
-	curr_state.set_scale(base_scale)
+	#var base_scale = Vector2(1,1)
+	#dir_facing.set_scale(base_scale)
+	#curr_state.set_scale(base_scale)
 
 func process_map_collisions():
 	if(is_colliding()):
 		var body = get_collider()
 		if(body.is_in_group("wall")):
 			facing_dir = -facing_dir
+		if(state == BOMBEADO && not stunned):
+			if(not body.is_in_group("repulsor")):
+				if(target):
+					state = CHASING
+				else:
+					state = WANDERING
 
-	if(cast.is_colliding()):
-		var body = cast.get_collider()
-		if(body && body.is_in_group("player")):
-			state = CHASING
-			check_p = true
-			target = body
+
+
+
+func _on_aggro_range_body_enter(body):
+	if(body.is_in_group("player")):
+		state = CHASING
+		check_p = true
+		target = body
 
 func check_facing():
 	var scale = get_scale()
@@ -78,14 +133,15 @@ func check_facing():
 	else:
 		set_scale(Vector2(-1,scale.y))
 
-func check_patience():
-	var cast_vec= cast.get_cast_to()
-	var pos = get_pos()
-	var target_pos = target.get_pos()
-	var pos_diff = target_pos - pos
-	if(abs(pos_diff.x) > abs(cast_vec.x)):
+func _on_aggro_range_body_exit(body):
+	if(body.is_in_group("player") && check_p):
 		patience.start()
 		check_p=false
+
+func _on_stun_timer_timeout():
+	print("TIME")
+	get_node("stun_timer").stop()
+	stunned = false
 
 func _on_patience_timeout():
 	state = WANDERING
@@ -105,8 +161,6 @@ func _fixed_process(delta):
 	process_map_collisions()
 	perform_bear_movement(delta)
 	check_facing()
-	if(target && check_p ):
-		check_patience()
 	update_labels()
 
 

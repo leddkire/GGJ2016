@@ -33,7 +33,7 @@ invert/border = 100.0
 
 [node name="player" parent="." instance=ExtResource( 1 )]
 
-transform/pos = Vector2( -45.4263, 69.981 )
+transform/pos = Vector2( -41.7431, 77.3474 )
 collision/margin = 0.08
 
 [node name="floor" type="StaticBody2D" parent="."]
@@ -62,7 +62,7 @@ trigger = false
 
 [node name="basic_wall" parent="." instance=ExtResource( 2 )]
 
-transform/pos = Vector2( 127.685, 186.616 )
+transform/pos = Vector2( 310.618, 174.339 )
 
 [node name="basic_wall 2" parent="." instance=ExtResource( 2 )]
 
@@ -70,7 +70,6 @@ transform/pos = Vector2( -38.0599, 189.072 )
 
 [node name="bear_enemy" parent="." instance=ExtResource( 3 )]
 
-transform/pos = Vector2( 29.4657, 128.905 )
 collision/margin = 0.08
 
 

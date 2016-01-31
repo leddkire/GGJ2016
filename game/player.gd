@@ -94,7 +94,14 @@ func _fixed_process(delta):
 		if(action_state == SHOOT_ACTION):
 			perform_shoot()
 			busy = true
-	set_scale(Vector2(sign(dir_facing),1))
+	#check_dir_facing()
+
+func check_dir_facing():
+	var scale = get_scale()
+	if(sign(dir_facing) == 1):
+		set_scale(Vector2(1,scale.y))
+	else:
+		set_scale(Vector2(-1,scale.y))
 
 # function that makes the player move with physics
 func _do_move(delta):
@@ -152,13 +159,11 @@ func _do_move(delta):
 	if (walk_left):
 		if (velocity.x<=0 and velocity.x > -WALK_MAX_SPEED*xSpeedFactor):
 			force.x-=WALK_FORCE
-			dir_facing = -1
 			stop=false
 		
 	elif (walk_right):
 		if (velocity.x>=0 and velocity.x < WALK_MAX_SPEED*xSpeedFactor):
 			force.x+=WALK_FORCE
-			dir_facing = 1
 			stop=false
 	
 #	elif (walk_up): # if not inflated, starts to inflate like a balloon. Otherwise, fly higher.
@@ -181,7 +186,6 @@ func _do_move(delta):
 	
 	#integrate forces to velocity
 	velocity += force * delta
-	
 	
 	#integrate velocity into motion and move
 	var motion = velocity * delta
@@ -249,8 +253,10 @@ func _do_move(delta):
 	if (new_siding_left!=siding_left):
 		if (new_siding_left):
 			get_node("Sprite").set_scale( Vector2(-1,1) )
+			dir_facing = -1
 		else:
 			get_node("Sprite").set_scale( Vector2(1,1) )
+			dir_facing = 1
 			
 		siding_left=new_siding_left
 	
@@ -401,7 +407,8 @@ func create_repulsor():
 	print("performing repulsor")
 	channeling = true
 	var repulsor_node = repulsor_scn.instance()	
-	var repulsor_pos = Vector2(30,10)
+
+	var repulsor_pos = Vector2(10*dir_facing,-5)
 	repulsor_node.set_pos(repulsor_pos)
 	add_child(repulsor_node)
 
