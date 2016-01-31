@@ -122,7 +122,6 @@ func process_map_collisions():
 
 
 
-
 func _on_aggro_range_body_enter(body):
 	if(body.is_in_group("player")):
 		state = CHASING
@@ -159,6 +158,9 @@ func _on_attack_range_body_enter(body):
 		if(not block_until_attack_end):
 			anim_player.play("attack")
 			block_until_attack_end = true
+
+func _on_attack_range_body_exit(body):
+	pass
 
 func _fixed_process(delta):
 	process_map_collisions()

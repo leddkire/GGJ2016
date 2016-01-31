@@ -18,7 +18,7 @@ const item_class = preload("res://item.gd")
 const GRAVITY = 900.0               # in [px/s]
 const FLOOR_ANGLE_TOLERANCE = 40
 const WALK_FORCE = 1200              # given force when left/right key is pressed, in [px/s]
-const WALK_MAX_SPEED = 300          # maximum speed of the player, in [px/s]
+const WALK_MAX_SPEED = 200          # maximum speed of the player, in [px/s]
 const STOP_FORCE = 1800             # friction when no movement key is pressed, in [px/s]
 const JUMP_SPEED = 300              # initial velocity when doing a jump, in [px/s]
 const JUMP_MAX_AIRBORNE_TIME=0.2    # tolerance of error for time not touching the ground when trying to jump, in [s]. Often the player is for a fraction of second in air, because of the way physics work.
@@ -394,8 +394,8 @@ func player_shoot():
 	channeling = false
 	var projectile_node = projectile_scn.instance()
 	var player_pos = get_pos()
-	var p_dir = sign(dir_facing) * 30
-	var projectile_pos = player_pos + Vector2(p_dir,10)
+	var p_dir = sign(dir_facing) * 20
+	var projectile_pos = player_pos + Vector2(p_dir,-5)
 	projectile_node.set_pos(projectile_pos)
 	projectile_node.dir = dir_facing
 	get_node("..").add_child(projectile_node)
