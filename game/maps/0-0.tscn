@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=1]
+[gd_scene load_steps=10 format=1]
 
 [ext_resource path="res://tile_sets/map0.res" type="TileSet" id=1]
 [ext_resource path="res://player.tscn" type="PackedScene" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://GUI/bat_wings.png" type="Texture" id=6]
 [ext_resource path="res://Ingredients/shroom2.png" type="Texture" id=7]
 [ext_resource path="res://Ingredients/shroom3.png" type="Texture" id=8]
+[ext_resource path="res://door/door.tscn" type="PackedScene" id=9]
 
 [node name="root" type="Node"]
 
@@ -35,6 +36,7 @@ tile_data = IntArray( -131051, 0, -131050, 0, -131033, 0, -131032, 0, -65521, 0,
 [node name="player" parent="." instance=ExtResource( 2 )]
 
 transform/pos = Vector2( 58.7258, 140.72 )
+collision/margin = 0.08
 
 [node name="bear_enemy" parent="." instance=ExtResource( 3 )]
 
@@ -85,6 +87,11 @@ texture = ExtResource( 8 )
 [node name="Area2D" parent="item 3"]
 
 linear_damp = 0.1
+
+[node name="door" parent="." instance=ExtResource( 9 )]
+
+transform/pos = Vector2( 231.814, 103.209 )
+transform/scale = Vector2( 1, 1 )
 
 
 [editable path="item"]
