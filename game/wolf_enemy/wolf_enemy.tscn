@@ -33,11 +33,14 @@ collision/layers = 1
 collision/mask = 1
 collision/margin = 0.08
 script/script = ExtResource( 1 )
-__meta__ = { "__editor_plugin_screen__":"2D" }
+__meta__ = { "__editor_plugin_screen__":"Script" }
 
 [node name="Sprite" type="Sprite" parent="."]
 
+transform/pos = Vector2( 0, -5 )
 texture = ExtResource( 2 )
+vframes = 3
+hframes = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 
@@ -87,25 +90,11 @@ shape = SubResource( 3 )
 trigger = false
 _update_shape_index = 0
 
-[node name="current_state" type="Label" parent="."]
-
-margin/left = -15.0
-margin/top = -21.0
-margin/right = 25.0
-margin/bottom = -8.0
-focus/ignore_mouse = true
-focus/stop_mouse = true
-size_flags/horizontal = 2
-text = "Current state"
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
-
 [node name="cast_range" type="Area2D" parent="."]
 
 input/pickable = true
 shapes/0/shape = SubResource( 4 )
-shapes/0/transform = Matrix32( 1, -0, 0, 1, 85, 0.174828 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 95.5641, 0.174828 )
 shapes/0/trigger = false
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
