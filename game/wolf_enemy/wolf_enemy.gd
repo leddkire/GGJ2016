@@ -122,7 +122,7 @@ func _fixed_process(delta):
 	process_map_collisions()
 	perform_wolf_movement(delta)
 	check_facing()
-	get_node("current_state").set_text("Current State: " + var2str(state))	
+#	get_node("current_state").set_text("Current State: " + var2str(state))	
 
 
 func _ready():

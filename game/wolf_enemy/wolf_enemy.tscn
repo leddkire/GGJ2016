@@ -33,7 +33,7 @@ collision/layers = 1
 collision/mask = 1
 collision/margin = 0.08
 script/script = ExtResource( 1 )
-__meta__ = { "__editor_plugin_screen__":"2D" }
+__meta__ = { "__editor_plugin_screen__":"Script" }
 
 [node name="Sprite" type="Sprite" parent="."]
 
@@ -89,20 +89,6 @@ angular_damp = 1.0
 shape = SubResource( 3 )
 trigger = false
 _update_shape_index = 0
-
-[node name="current_state" type="Label" parent="."]
-
-margin/left = -15.0
-margin/top = -21.0
-margin/right = 25.0
-margin/bottom = -8.0
-focus/ignore_mouse = true
-focus/stop_mouse = true
-size_flags/horizontal = 2
-text = "Current state"
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
 
 [node name="cast_range" type="Area2D" parent="."]
 
