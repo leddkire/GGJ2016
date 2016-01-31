@@ -40,7 +40,8 @@ var dir_facing
 
 #Resources for actions
 var repulsor_scn = load("res://repulsor/repulsor.tscn")
-var repulsor_anim
+var projectile_scn = load("res://basic_projectile/basic_projectile.tscn")
+
 
 var anim_player
 
@@ -67,6 +68,7 @@ var IDLE_ACTION = 0
 var REPULSOR_ACTION = 1
 var SHOOT_ACTION =2
 var block_facing = false
+var channeling = false
 
 # Functions ---------------------------------------------------------------
 
@@ -77,11 +79,11 @@ func idle_state_function(ev):
 	if(ev.is_action_pressed("repulsor")):
 		action_state = REPULSOR_ACTION
 	if(ev.is_action_pressed("shoot")):
-		pass
+		action_state = SHOOT_ACTION
 
 # main loop
 func _fixed_process(delta):
-	if(state!=STATE_CUTSCENE):
+	if(state!=STATE_CUTSCENE && not channeling):
 		_do_move(delta)
 	if(not anim_player.is_playing()):
 		if(action_state == REPULSOR_ACTION):
@@ -262,7 +264,6 @@ func _ready():
 #	sfx_node=get_node("sfx")
 	get_node("/root/camera").cam_target=self
 	anim_player = get_node("AnimationPlayer")
-	repulsor_anim = anim_player.get_animation("repulsor")
 	action_state = IDLE_ACTION
 	dir_facing = 1
 	block_facing =false
@@ -361,19 +362,40 @@ func _on_Traverse_timeout():
 	traverse_floor=false
 	_switch_layer()
 
+func perform_shoot():
+	print("channeling shoot")
+	anim_player.play("shoot")
+	channeling = true
+
+func player_shoot():
+	print("shooting")
+	channeling = false
+	var projectile_node = projectile_scn.instance()
+	var player_pos = get_pos()
+	var p_dir = sign(dir_facing) * 30
+	var projectile_pos = player_pos + Vector2(p_dir,10)
+	projectile_node.set_pos(projectile_pos)
+	projectile_node.dir = dir_facing
+	get_node("..").add_child(projectile_node)
+	action_state = IDLE_ACTION
+
+
 func perform_repulsion():
 	anim_player.play("repulsor")
 	block_facing = true
 
 func create_repulsor():
 	print("performing repulsor")
+	channeling = true
 	var repulsor_node = repulsor_scn.instance()	
 	var repulsor_pos = Vector2(30,10)
 	repulsor_node.set_pos(repulsor_pos)
 	add_child(repulsor_node)
 
+
 func remove_repulsor():
 	print("removing repulsor")
+	channeling = false
 	var repulsor_node = get_node("repulsor")	
 	repulsor_node.queue_free()
 	action_state = IDLE_ACTION

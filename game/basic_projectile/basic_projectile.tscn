@@ -1,0 +1,42 @@
+[gd_scene load_steps=4 format=1]
+
+[ext_resource path="res://basic_projectile/basic_projectile.gd" type="Script" id=1]
+[ext_resource path="res://basic_projectile/basic_projectile.png" type="Texture" id=2]
+
+[sub_resource type="CircleShape2D" id=1]
+
+custom_solver_bias = 0.0
+radius = 8.0
+
+[node name="basic_projectile" type="KinematicBody2D"]
+
+input/pickable = false
+shapes/0/shape = SubResource( 1 )
+shapes/0/transform = Matrix32( 1, 0, 0, 1, 0, 0 )
+shapes/0/trigger = false
+collision/layers = 1
+collision/mask = 1
+collision/margin = 0.08
+script/script = ExtResource( 1 )
+__meta__ = { "__editor_plugin_screen__":"Script" }
+
+[node name="Sprite" type="Sprite" parent="."]
+
+texture = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+
+shape = SubResource( 1 )
+trigger = false
+_update_shape_index = 0
+
+[node name="Timer" type="Timer" parent="."]
+
+process_mode = 1
+wait_time = 1.5
+one_shot = false
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
+
+

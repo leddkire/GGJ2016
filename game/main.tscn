@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=1]
+[gd_scene load_steps=4 format=1]
 
 [ext_resource path="res://main.gd" type="Script" id=1]
 [ext_resource path="res://GUI/bat_wings.png" type="Texture" id=2]
+[ext_resource path="res://GUI/bear_claw.png" type="Texture" id=3]
 
 [node name="root" type="Node"]
 
@@ -63,6 +64,25 @@ margin/left = 16.0
 margin/top = -2.0
 margin/right = 44.0
 margin/bottom = 11.0
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+text = "X 0"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="bear_claw" type="Sprite" parent="HUDLayer/HUDRoot"]
+
+transform/pos = Vector2( 100.176, 216.275 )
+texture = ExtResource( 3 )
+
+[node name="Label1" type="Label" parent="HUDLayer/HUDRoot/bear_claw"]
+
+margin/left = 30.0
+margin/top = 2.0
+margin/right = 58.0
+margin/bottom = 15.0
 focus/ignore_mouse = true
 focus/stop_mouse = true
 size_flags/horizontal = 2
