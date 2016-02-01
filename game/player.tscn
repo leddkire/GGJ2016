@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=1]
 
-[ext_resource path="res://player.gd" type="Script" id=1]
+[ext_resource path="res://newPlayerScript.gd" type="Script" id=1]
 [ext_resource path="res://player/carrie.png" type="Texture" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
@@ -73,14 +73,14 @@ collision/layers = 1
 collision/mask = 1
 collision/margin = 0.08
 script/script = ExtResource( 1 )
-__meta__ = { "__editor_plugin_screen__":"2D" }
+__meta__ = { "__editor_plugin_screen__":"Script" }
 
 [node name="Sprite" type="Sprite" parent="."]
 
 texture = ExtResource( 2 )
 vframes = 5
 hframes = 6
-frame = 21
+frame = 16
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 
