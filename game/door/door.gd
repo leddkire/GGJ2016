@@ -10,7 +10,7 @@ func _ready():
 
 func _on_Area2D_body_enter( body ):
 	if (body extends player_class):
-		if get_node("/root/game_data").itemsQty != [0,0,0,0]:
+		if get_node("/root/game_data").itemsQty != [1,2,1,3]:
 			get_node("Label").set_text("You need more ingredients to complete the ritual!")
 		else:
 			get_node("/root/camera").cam_target= null

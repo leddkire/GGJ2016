@@ -11,19 +11,19 @@ extents = Vector2( 15, 8 )
 [sub_resource type="RectangleShape2D" id=2]
 
 custom_solver_bias = 0.0
-extents = Vector2( 17, 8 )
+extents = Vector2( 16, 9 )
 
 [sub_resource type="RectangleShape2D" id=3]
 
 custom_solver_bias = 0.0
-extents = Vector2( 80, 15 )
+extents = Vector2( 60, 15 )
 
 [sub_resource type="RectangleShape2D" id=4]
 
 custom_solver_bias = 0.0
-extents = Vector2( 70, 10 )
+extents = Vector2( 50, 10 )
 
-[node name="wolf_enemy" type="KinematicBody2D"]
+[node name="wolf_enemy" type="KinematicBody2D" groups=[ "attack" ]]
 
 input/pickable = false
 shapes/0/shape = SubResource( 1 )
@@ -33,7 +33,7 @@ collision/layers = 1
 collision/mask = 1
 collision/margin = 0.08
 script/script = ExtResource( 1 )
-__meta__ = { "__editor_plugin_screen__":"Script" }
+__meta__ = { "__editor_plugin_screen__":"2D" }
 
 [node name="Sprite" type="Sprite" parent="."]
 
@@ -92,6 +92,7 @@ _update_shape_index = 0
 
 [node name="cast_range" type="Area2D" parent="."]
 
+visibility/visible = false
 input/pickable = true
 shapes/0/shape = SubResource( 4 )
 shapes/0/transform = Matrix32( 1, 0, 0, 1, 95.5641, 0.174828 )
@@ -103,7 +104,7 @@ angular_damp = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="cast_range"]
 
-transform/pos = Vector2( 85, 0.174828 )
+transform/pos = Vector2( 95.5641, 0.174828 )
 shape = SubResource( 4 )
 trigger = false
 _update_shape_index = 0
