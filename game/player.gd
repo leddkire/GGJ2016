@@ -2,16 +2,7 @@ extends KinematicBody2D
 
 # class controlling the player
 
-# Classes ---------------------------------------------------------------
-
-#const bonus_class = preload("res://bonus.gd")
-#const enemy_class = preload("res://enemies/enemy.gd")
 const item_class = preload("res://item.gd")
-#const boss_class = preload("res://enemies/boss1_sprite.gd")
-#const breath = preload("res://breath.res")
-#const star = preload("res://star.res")
-#const cone = preload("res://cone.res")
-#const hit_stars = preload("res://player_hit.res")
 
 # Constants ---------------------------------------------------------------
 
@@ -113,11 +104,8 @@ func _do_move(delta):
 	# The animation will be changed, if needed, at the end of this function.
 #	var pre_anim=""   # in case a new animation is divided in 2 parts, this is the name of the first animation to play. The animation must not loop, because it will be followed by the new_anim animation.
 	new_anim=anim # name of the next animation to play. must be a valid animation name and the animation must loop.
-	
-#	var animation=get_node("anim") # animation player node
+	var stop = true	
 	var preventChangeAnimation=false # flag to prevent a change of animation, so a transition animation can be completely played, even if something interacts with the player.
-#	if(animation!=null and get_node("anim").get_current_animation()=="deflate"): # if the player is deflating, meaning he's falling, prevent to switch to fall animation
-#		preventChangeAnimation=true
 	if(anim_player != null):
 		var curr_anim = anim_player.get_current_animation() 
 		if (curr_anim == "repulsor" or curr_anim == "shoot"):
@@ -138,27 +126,7 @@ func _do_move(delta):
 	var walk_down = Input.is_action_pressed("ui_down")
 	var jump = Input.is_action_pressed("jump")
 	var shoot = Input.is_action_pressed("shoot")
-	
-	
-	# manage traversable plateforms.
-	# if the player is moving up, because of a jump mostly, he'll always traverse the floor
-	if(velocity.y<0):
-		traverse_floor=true
-		_switch_layer()
-	elif(jump and walk_down): # if he's pressing down and jump buttons, the player is trying to jump down the plateform. 
-		jump=false  # prevent the player to go up. He'll simply fall.
-		traverse_floor=true # active traverse floor mode. The player will then be like in the middle of the sky and start to fall. But it must stay only the time needed to traverse the current floor. The player must not traverse the next floor below.
-		_switch_layer()
-		get_node("traverseTimer").start()  # starts a timer to desactivate the traverse floor mode. 
-	elif(traverse_floor and get_node("traverseTimer").get_time_left()<=0): # if timer is up and the player was in traverse mode, desactivate it. The player will the immediately collide again with the plateforms.
-		traverse_floor=false
-		_switch_layer()
-	
-	var stop=true # flag for saying if the player is not moving by himself (except for inertia).
-	
-	if(currentDoor!=null and walk_up): # if the player is in front of a door and press up, he'll enter it.
-		_start_enter_door()
-	
+
 	# manage movement impulse given by the input
 	if (walk_left):
 		if (velocity.x<=0 and velocity.x > -WALK_MAX_SPEED*xSpeedFactor):
@@ -169,12 +137,6 @@ func _do_move(delta):
 		if (velocity.x>=0 and velocity.x < WALK_MAX_SPEED*xSpeedFactor):
 			force.x+=WALK_FORCE
 			stop=false
-	
-#	elif (walk_up): # if not inflated, starts to inflate like a balloon. Otherwise, fly higher.
-#			force.y=-FLY_JUMP_SPEED
-#			stop=false
-#			preventChangeAnimation=false
-	
 	# if the player got no movement impulse, he'll slow down with inertia.
 	if (stop):
 		var vsign = sign(velocity.x)
@@ -183,9 +145,7 @@ func _do_move(delta):
 		vlen -= STOP_FORCE * delta
 		if (vlen<0):
 			vlen=0
-			
 		velocity.x=vlen*vsign
-
 	
 	#integrate forces to velocity
 	velocity += force * delta
@@ -203,30 +163,23 @@ func _do_move(delta):
 	if (is_colliding()):
 		#ran against something, is it the floor? get normal
 		var n = get_collision_normal()
-		
-		
 		if ( rad2deg(acos(n.dot( Vector2(0,-1)))) < FLOOR_ANGLE_TOLERANCE ):
 			#if angle to the "up" vectors is < angle tolerance
 			#char is on floor
 			on_air_time=0
 			floor_velocity=get_collider_velocity()
-			
 		# But we were moving and our motion was interrupted, 
 		# so try to complete the motion by "sliding"
 		# by the normal
 		motion = n.slide(motion)
 		velocity = n.slide(velocity)
-		
 		#then move again
 		move(motion)
-	
 	if (floor_velocity!=Vector2()):
 		#if floor moves, move with floor
 		move(floor_velocity*delta)
 		
 	# from here, the player will not be moved anymore 'till the end of the function.
-						
-			
 	if(state==STATE_NORMAL):
 		# when in normal state, the player can move, jump, and start to inhale.
 		if (jumping and velocity.y>0):
@@ -241,8 +194,6 @@ func _do_move(delta):
 		on_air_time+=delta
 		prev_jump_pressed=jump
 		
-#		if(velocity.y!=0 and on_air_time>=0.1):
-#			new_anim=normal_animations[ANIM_FALL]
 #		elif(velocity.x==0):
 #			new_anim=normal_animations[ANIM_IDLE]
 #		else:
@@ -263,6 +214,13 @@ func _do_move(delta):
 			
 		siding_left=new_siding_left
 
+	new_anim = update_animation()
+	# update the player's animation, if needed and possible.
+	if(!preventChangeAnimation and new_anim!=anim):
+		anim=new_anim
+		anim_player.play(anim)
+
+func update_animation():
 	var	curr_anim = anim_player.get_current_animation()	
 	if(curr_anim != "Idle" and action_state == IDLE_ACTION):
 		if(velocity.x ==0):
@@ -270,11 +228,7 @@ func _do_move(delta):
 	elif(curr_anim != "Run" and action_state == IDLE_ACTION):
 		if(velocity.x != 0):
 			new_anim = "Run"
-	# update the player's animation, if needed and possible.
-	if(!preventChangeAnimation and new_anim!=anim):
-		anim=new_anim
-		anim_player.play(anim)
-
+	return new_anim
 
 # Initializer
 func _ready():
