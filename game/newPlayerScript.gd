@@ -28,13 +28,14 @@ var NORMAL_MS = StateObject.new("normal","normal_ms",0,self)
 
 #Jumping states
 var NORMAL_JMP = StateObject.new("jump","normal_jmp",0,self)
-func normal_jmp(j):
+func normal_jmp(j,delta):
 	if (jumping and velocity.y>0):
 		jumping=false
-
-	if (j and not prev_jump_pressed and not jumping):
+	print(j)
+	if (on_air_time<JUMP_MAX_AIRBORNE_TIME and j and not prev_jump_pressed and not jumping):
 		velocity.y=-JUMP_SPEED
 		jumping=true
+	on_air_time+=delta
 	prev_jump_pressed=j
 
 #Animation states
@@ -70,6 +71,7 @@ var channeling = false
 var velocity = Vector2(0,0)
 var dir_facing = 1
 var jumping = false
+var on_air_time = 100
 var prev_jump_pressed = false
 var siding_left = false
 var current_state_ms = NORMAL_MS
@@ -78,6 +80,7 @@ var next_state_ms = NORMAL_MS
 var GRAVITY = 900.0
 const WALK_FORCE = 1200              # given force when left/right key is pressed, in [px/s]
 const WALK_MAX_SPEED = 200          # maximum speed of the player, in [px/s]
+const FLOOR_ANGLE_TOLERANCE = 40
 const STOP_FORCE = 1800             # friction when no movement key is pressed, in [px/s]
 const JUMP_SPEED = 300              # initial velocity when doing a jump, in [px/s]
 const JUMP_MAX_AIRBORNE_TIME=0.2    # tolerance of error for time not touching the ground when trying to jump, in [s]. Often the player is for a fraction of second in air, because of the way physics work.
@@ -170,10 +173,13 @@ func process_movement(delta):
 		motion = normal.slide(motion)
 		velocity = normal.slide(velocity)
 		move(motion)
-
+		if ( rad2deg(acos(normal.dot( Vector2(0,-1)))) < FLOOR_ANGLE_TOLERANCE ):
+			#if angle to the "up" vectors is < angle tolerance
+			#char is on floor
+			on_air_time=0
 	if(current_state_ms == NORMAL_MS):
 		var jump_func = current_state_jump.stateFunc
-		jump_func.call_func(jump)
+		jump_func.call_func(jump,delta)
 
 
 	# update the side flag
@@ -204,7 +210,6 @@ func _fixed_process(delta):
 	if(current_state_anim.name != next_state_anim.name):
 		pass
 
-	print(next_state_anim.name, block_anim_change)
 	process_animations()
 	if(not channeling):
 		process_movement(delta)
