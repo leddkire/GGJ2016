@@ -1,7 +1,7 @@
 
 extends Sprite
 
-const player_class = preload("res://player.gd")
+const player_class = preload("res://newPlayerScript.gd")
 
 func _ready():
 	# Initialization here
