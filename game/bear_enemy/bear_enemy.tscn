@@ -22,8 +22,8 @@ extents = Vector2( 40, 16 )
 [sub_resource type="CapsuleShape2D" id=4]
 
 custom_solver_bias = 0.0
-radius = 15.0
-height = 10.0
+radius = 20.0
+height = 15.0
 
 [sub_resource type="Animation" id=5]
 
@@ -32,21 +32,6 @@ loop = false
 step = 0.1
 
 [sub_resource type="Animation" id=6]
-
-resource/name = "walk"
-length = 1.0
-loop = true
-step = 0.1
-tracks/0/type = "value"
-tracks/0/path = NodePath("Sprite:frame")
-tracks/0/interp = 1
-tracks/0/keys = { "cont":false, "times":FloatArray( 0, 0.5 ), "transitions":FloatArray( 1, 1 ), "values":[ 2, 3 ] }
-tracks/1/type = "value"
-tracks/1/path = NodePath("paw:transform/pos")
-tracks/1/interp = 1
-tracks/1/keys = { "cont":true, "times":FloatArray( 0 ), "transitions":FloatArray( 1 ), "values":[ Vector2( 0, 0 ) ] }
-
-[sub_resource type="Animation" id=7]
 
 length = 1.3
 loop = false
@@ -63,6 +48,20 @@ tracks/2/type = "value"
 tracks/2/path = NodePath("Sprite:frame")
 tracks/2/interp = 1
 tracks/2/keys = { "cont":false, "times":FloatArray( 0, 0.5 ), "transitions":FloatArray( 1, 1 ), "values":[ 4, 5 ] }
+
+[sub_resource type="Animation" id=7]
+
+length = 1.0
+loop = true
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/keys = { "cont":false, "times":FloatArray( 0, 0.5 ), "transitions":FloatArray( 1, 1 ), "values":[ 2, 3 ] }
+tracks/1/type = "value"
+tracks/1/path = NodePath("paw:transform/pos")
+tracks/1/interp = 1
+tracks/1/keys = { "cont":true, "times":FloatArray( 0 ), "transitions":FloatArray( 1 ), "values":[ Vector2( 0, 0 ) ] }
 
 [sub_resource type="CircleShape2D" id=8]
 
@@ -172,20 +171,19 @@ autostart = false
 
 input/pickable = true
 shapes/0/shape = SubResource( 4 )
-shapes/0/transform = Matrix32( -4.37114e-008, -1, 1, -4.37114e-008, 6, 0 )
-shapes/0/trigger = false
+shapes/0/transform = Matrix32( -4.37114e-008, -1, 1, -4.37114e-008, 13.42, -6.20707e-008 )
+shapes/0/trigger = true
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
 linear_damp = 0.1
 angular_damp = 1.0
-__meta__ = { "_editor_collapsed":true }
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="attack_range"]
 
-transform/pos = Vector2( 6, 0 )
+transform/pos = Vector2( 13.42, -6.20707e-008 )
 transform/rot = 90.0
 shape = SubResource( 4 )
-trigger = false
+trigger = true
 _update_shape_index = 0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -194,8 +192,8 @@ playback/process_mode = 1
 playback/default_blend_time = 0.0
 root/root = NodePath("..")
 anims/idle = SubResource( 5 )
-anims/walk = SubResource( 6 )
-anims/attack = SubResource( 7 )
+anims/attack = SubResource( 6 )
+anims/walk = SubResource( 7 )
 playback/active = true
 playback/speed = 1.0
 blend_times = [  ]
@@ -229,7 +227,7 @@ __meta__ = { "_edit_lock_":true }
 [node name="stun_timer" type="Timer" parent="."]
 
 process_mode = 1
-wait_time = 0.5
+wait_time = 1.0
 one_shot = false
 autostart = false
 

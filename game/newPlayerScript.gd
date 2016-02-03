@@ -5,22 +5,7 @@ var item_class = load("res://item.gd")
 var repulsor_scn = load("res://repulsor/repulsor.tscn")
 var projectile_scn = load("res://basic_projectile/basic_projectile.tscn")
 
-#Class for creating states
-#It holds a reference to a function to be called
-class StateObject:
-	var name = ""
-	#Holds a reference to a function
-	#Call using stateFunc.call_func(args)
-	var stateFunc =FuncRef
-	var value = -1
-	# Input types:
-	#	n :: String
-	#	s :: String
-	#	b :: Int
-	func _init(n,s,v,i):
-		name = n
-		stateFunc = funcref(i,s)
-		value = v
+var StateObject = load("res://classes/StateObject.gd").StateObject
 
 #Movement states
 #Suffix MS
@@ -31,7 +16,6 @@ var NORMAL_JMP = StateObject.new("jump","normal_jmp",0,self)
 func normal_jmp(j,delta):
 	if (jumping and velocity.y>0):
 		jumping=false
-	print(j)
 	if (on_air_time<JUMP_MAX_AIRBORNE_TIME and j and not prev_jump_pressed and not jumping):
 		velocity.y=-JUMP_SPEED
 		jumping=true
@@ -207,9 +191,6 @@ func process_animations():
 	current_state_anim = next_state_anim
 
 func _fixed_process(delta):
-	if(current_state_anim.name != next_state_anim.name):
-		pass
-
 	process_animations()
 	if(not channeling):
 		process_movement(delta)
